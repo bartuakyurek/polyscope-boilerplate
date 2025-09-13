@@ -10,7 +10,7 @@ obj_selected = None
 ps_mesh = None
 obj_path = None
 
-def launch_ps(data_path,  extra_callbacks=None):
+def launch(data_path,  extra_callbacks=None):
     """
         data_path: string path of a folder containing .obj data
 

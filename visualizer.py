@@ -10,18 +10,30 @@ obj_selected = None
 ps_mesh = None
 obj_path = None
 
-def launch_ps(data_path):
+def launch_ps(data_path,  extra_callbacks=None):
+    """
+        data_path: string path of a folder containing .obj data
+
+        extra_callbacks: provide a callback function or a list of functions
+        to extend polyscope gui callbacks. This is useful when you want to
+        add extra utilities on top of the boilerplate.
+    """
     global available_objs, obj_path
     obj_path = data_path
 
-    # Init polyscope
     ps.init()
     available_objs = get_available_objs(data_path)
 
-    # Register GUI
-    ps.set_user_callback(gui_callback)
+    if extra_callbacks is None: callbacks = []
+    elif callable(extra_callbacks): callbacks = [extra_callbacks]
+    else: callbacks = list(extra_callbacks)
 
-    # Show window
+    def combined_callback():
+        gui_callback() # default OBJ dropdown menu
+        for cb in callbacks: # user-provided callbacks
+            cb()
+
+    ps.set_user_callback(combined_callback)
     ps.show()
 
 

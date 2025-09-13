@@ -72,17 +72,17 @@ def reload_mesh():
     if ps_mesh is not None:
         ps_mesh.remove()
 
+    for cb in on_reload_callbacks:
+        cb(mesh)
+
     # Register new mesh
     ps_mesh = ps.register_surface_mesh(
         name="mesh",
         vertices=mesh.vertices,
         faces=mesh.faces,
-        transparency=0.5
     )
     ps.reset_camera_to_home_view()
-
-    for cb in on_reload_callbacks:
-        cb(mesh)
+    
     return mesh
 
 

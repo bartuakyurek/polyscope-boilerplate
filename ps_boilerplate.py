@@ -6,6 +6,7 @@ import polyscope.imgui as psim
 
 # Globals
 available_objs = []
+on_reload_callbacks = []
 obj_selected = None
 ps_mesh = None
 obj_path = None
@@ -47,6 +48,9 @@ def load_mesh(path, filename):
     path = os.path.join(path, filename)
     return trimesh.load(path, force="mesh")
 
+def add_on_reload_callback(cb):
+    """Register a function that runs after hitting reload button."""
+    on_reload_callbacks.append(cb)
 
 def reload_mesh():
     """Load the currently selected mesh into Polyscope."""
@@ -69,6 +73,10 @@ def reload_mesh():
         transparency=0.5
     )
     ps.reset_camera_to_home_view()
+
+    for cb in on_reload_callbacks:
+        cb(mesh)
+    return mesh
 
 
 def gui_callback():

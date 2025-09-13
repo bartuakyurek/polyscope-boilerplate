@@ -38,6 +38,13 @@ def launch(data_path,  extra_callbacks=None):
     ps.show()
 
 
+def update_current_mesh(vertices, faces):
+    """Update the currently visualized mesh geometry."""
+    global ps_mesh
+    if ps_mesh is not None:
+        ps_mesh.update_geometry(vertices, faces)
+
+
 def get_available_objs(path, filetype=".obj"):
     """Return list of .obj files in folder (filenames only)."""
     return [f for f in os.listdir(path) if f.endswith(filetype)]

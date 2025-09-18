@@ -10,6 +10,7 @@ on_reload_callbacks = []
 obj_selected = None
 ps_mesh = None
 obj_path = None
+use_trimesh=True
 
 def launch(data_path,  extra_callbacks=None):
     """
@@ -59,7 +60,7 @@ def add_on_reload_callback(cb):
     """Register a function that runs after hitting reload button."""
     on_reload_callbacks.append(cb)
 
-def reload_mesh(use_trimesh=True):
+def reload_mesh():
     """
         Load the currently selected mesh into Polyscope when reload button is hit.
         This also runs additional callbacks (intended to be used as geometry processing
@@ -69,7 +70,7 @@ def reload_mesh(use_trimesh=True):
         otherwise list of vertices and faces of the loaded trimesh will be used, i.e.
         your_callback(v, f).
     """
-    global ps_mesh
+    global ps_mesh, use_trimesh
     if obj_selected is None:
         return
 

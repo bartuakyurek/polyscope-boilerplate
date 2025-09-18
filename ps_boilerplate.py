@@ -41,9 +41,9 @@ def launch(data_path,  extra_callbacks=None):
 def update_current_mesh(vertices, faces):
     """Update the currently visualized mesh geometry."""
     global ps_mesh
-    if ps_mesh is not None:
-        ps_mesh.update_geometry(vertices, faces)
-
+    #if ps_mesh is not None:
+        #ps_mesh.update_geometry(vertices, faces)
+    raise NotImplementedError()
 
 def get_available_objs(path, filetype=".obj"):
     """Return list of .obj files in folder (filenames only)."""

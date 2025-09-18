@@ -59,21 +59,27 @@ def add_on_reload_callback(cb):
     """Register a function that runs after hitting reload button."""
     on_reload_callbacks.append(cb)
 
-def reload_mesh():
-    """Load the currently selected mesh into Polyscope."""
-    global ps_mesh
+def reload_mesh(use_trimesh=True):
+    """
+        Load the currently selected mesh into Polyscope when reload button is hit.
+        This also runs additional callbacks (intended to be used as geometry processing
+        on the selected object) set by add_on_reload_callback(cb). 
 
+        use_trimesh: bool, If True on_reload_callbacks accept trimesh mesh object
+        otherwise list of vertices and faces of the loaded trimesh will be used, i.e.
+        your_callback(v, f).
+    """
+    global ps_mesh
     if obj_selected is None:
         return
 
     mesh = load_mesh(obj_path, obj_selected)
-
-    # Remove previous mesh if needed
     if ps_mesh is not None:
         ps_mesh.remove()
 
     for cb in on_reload_callbacks:
-        cb(mesh)
+        if use_trimesh: cb(mesh)
+        else: cb(mesh.vertices, mesh.faces)
 
     # Register new mesh
     ps_mesh = ps.register_surface_mesh(

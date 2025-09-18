@@ -85,8 +85,7 @@ def reload_mesh():
     
     return mesh
 
-
-def gui_callback():
+def _reload_button_cb():
     """ImGui UI elements."""
     global obj_selected
 
@@ -103,3 +102,15 @@ def gui_callback():
     # Reload button
     if psim.Button("Reload") and obj_selected is not None:
         reload_mesh()
+
+def _keyboard_cb():
+    # ESC - Shutdown polyscope
+    if psim.IsKeyPressed(psim.ImGuiKey_Escape):
+        ps.unshow()
+    psim.Text("Press ESC to quit")
+
+def gui_callback():
+    # Default callbacks of boilerplate
+    _reload_button_cb()
+    _keyboard_cb()
+    
